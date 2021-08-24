@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Home: React.FC<{ items: Array<report> }> = ({ items }) => {
+const Viewer: React.FC<{ items: Array<report> }> = ({ items }) => {
   const classes = useStyles()
 
   return (
@@ -28,4 +28,4 @@ const Home: React.FC<{ items: Array<report> }> = ({ items }) => {
   )
 }
 
-export default Home
+export default Viewer

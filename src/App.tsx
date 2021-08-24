@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Home from 'components/pages/Home'
+import Viewer from 'components/pages/Viewer'
 import Error from 'components/pages/Error'
 import { report } from 'components/elements/display/CV'
 import { useSender } from 'utils/axios'
@@ -7,10 +7,22 @@ import marked from 'marked'
 import dayjs from 'dayjs'
 import DOMPurify from 'dompurify'
 import { API } from 'constants/api'
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
+import { CssBaseline } from '@material-ui/core'
+import { PAGE } from 'constants/page'
+
+const Redirect: React.FC = () => {
+  const history = useHistory()
+  useEffect(() => {
+    history.push(PAGE.viewer.path)
+  })
+  return <div>redirect</div>
+}
 
 const App: React.FC = () => {
   const [items, setItems] = useState<report[]>([])
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
   const sender = useSender(API.GET_REPORTS)
 
   const transform = (item: report) => {
@@ -27,10 +39,12 @@ const App: React.FC = () => {
       const result = await sender({})
       if (result.status === 401) {
         setError('認証エラー')
+        setLoading(false)
         return
       }
       if (result.status !== 200) {
         setError('不明なエラー')
+        setLoading(false)
         return
       }
       setItems(
@@ -40,6 +54,7 @@ const App: React.FC = () => {
           )
           .map(transform)
       )
+      setLoading(false)
     }
     callSender()
   }, [])
@@ -48,7 +63,23 @@ const App: React.FC = () => {
     return <Error message={error} />
   }
 
-  return <Home items={items} />
+  if (loading) {
+    return <div>loading</div>
+  }
+
+  return (
+    <BrowserRouter>
+      <CssBaseline />
+      <Switch>
+        <Route path={PAGE.home.path} exact>
+          <Redirect />
+        </Route>
+        <Route path={PAGE.viewer.path} exact>
+          <Viewer items={items} />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  )
 }
 
 export default App

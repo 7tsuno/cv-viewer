@@ -33,7 +33,7 @@ export const useSender = (api: {
   config: AxiosRequestConfig
 }): ((payload: any) => Promise<AxiosResponse<any> | any>) => {
   const token = useMemo(() => {
-    const params = new URLSearchParams(location.search)
+    const params = new URLSearchParams(window.location.search)
     return params.get('token')
   }, [])
 
