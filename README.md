@@ -1,7 +1,6 @@
 # CV Viewer
 
-職務経歴書を共有するアプリ  
-認証付き
+職務経歴書を共有するアプリ
 
 ## システム構成
 
@@ -13,18 +12,13 @@ Netlify Functions
 
 Netlify Hosting
 
-### 認証
-
-Auth0
-
 ### Headless CMS
 
 Contentful
 
 ## Usage
 
-1. Auth0 でアプリケーションと API を作成する(Passwordless がおすすめ)
-2. Contentful で report という名前の以下属性を持つ contentType を作成する
+1. Contentful で report という名前の以下属性を持つ contentType を作成する
 
 ```
 {
@@ -41,8 +35,8 @@ Contentful
 
 ```
 
-3. contentType report の content を作成する(経歴の作成)
-4. 資材をデプロイする
+2. contentType report の content を作成する(経歴の作成)
+3. 資材をデプロイする
 
 <a href="https://app.netlify.com/start/deploy?repository=https://github.com/7tsuno/cv-viewer">
 <img src="https://www.netlify.com/img/deploy/button.svg" title="Deploy to Netlify">

@@ -1,13 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MainTemplate from 'components/templates/MainTemplate'
-import { useEffect } from 'react'
-import { useSender } from 'utils/axios'
-import { API } from 'constants/api'
 import CV, { report } from 'components/elements/display/CV'
-import dayjs from 'dayjs'
 import { makeStyles } from '@material-ui/core'
 import marked from 'marked'
-import DOMPurify from 'dompurify'
 
 marked.setOptions({
   breaks: true,
@@ -19,33 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Home: React.FC = () => {
+const Home: React.FC<{ items: Array<report> }> = ({ items }) => {
   const classes = useStyles()
-  const [items, setItems] = useState<report[]>([])
-  const sender = useSender(API.GET_REPORTS)
-
-  const transform = (item: report) => {
-    return {
-      ...item,
-      text: marked(DOMPurify.sanitize(item.text)),
-      startDate: dayjs(item.startDate).format('YYYY/MM'),
-      endDate: item.endDate ? dayjs(item.endDate).format('YYYY/MM') : '現在',
-    }
-  }
-
-  useEffect(() => {
-    const callSender = async () => {
-      const result = await sender({})
-      setItems(
-        result?.data?.reports
-          .sort((itemA: report, itemB: report) =>
-            dayjs(itemB.startDate).diff(itemA.startDate)
-          )
-          .map(transform)
-      )
-    }
-    callSender()
-  }, [])
 
   return (
     <MainTemplate>

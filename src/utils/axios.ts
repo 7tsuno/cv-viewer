@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { DOMAIN } from 'constants/api'
-import { useAuth0 } from '@auth0/auth0-react'
 import { AxiosRequestConfig } from 'axios'
+import { useMemo } from 'react'
 
 if (DOMAIN) {
   axios.defaults.baseURL = DOMAIN
@@ -31,19 +31,26 @@ const getOptionsWithPayload = (
 
 export const useSender = (api: {
   config: AxiosRequestConfig
-}): ((payload: any) => Promise<any>) => {
-  const { getAccessTokenSilently } = useAuth0()
-  const sender = async (payload: any): Promise<any> => {
-    const accessToken = await getAccessTokenSilently()
+}): ((payload: any) => Promise<AxiosResponse<any> | any>) => {
+  const token = useMemo(() => {
+    const params = new URLSearchParams(location.search)
+    return params.get('token')
+  }, [])
+
+  const sender = async (payload: any): Promise<AxiosResponse<any> | any> => {
     const options = getOptionsWithPayload(api, payload)
-    const result = await axios({
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      ...api.config,
-      ...options,
-    })
-    return result
+    try {
+      const result = await axios({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        ...api.config,
+        ...options,
+      })
+      return result
+    } catch (e) {
+      return e
+    }
   }
 
   return sender
