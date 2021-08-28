@@ -19,12 +19,12 @@ const verifyToken = (event) => {
   if (authHeader !== undefined) {
     if (authHeader.split(' ')[0] === 'Bearer') {
       try {
-        const token = jwt.verify(authHeader.split(' ')[1], AUTH_SECRET)
-        if (
-          userList.includes(token.name) &&
-          token.aud === AUTH_AUDIENCE &&
-          token.iss === AUTH_ISSUER
-        ) {
+        const token = jwt.verify(authHeader.split(' ')[1], AUTH_SECRET, {
+          audience: AUTH_AUDIENCE,
+          issuer: AUTH_ISSUER,
+          algorithms: ['RS256'],
+        })
+        if (userList.includes(token.name)) {
           return true
         } else {
           return false
