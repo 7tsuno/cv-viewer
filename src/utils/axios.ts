@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { DOMAIN } from 'constants/api'
 import { AxiosRequestConfig } from 'axios'
 import { useMemo } from 'react'
@@ -29,15 +29,27 @@ const getOptionsWithPayload = (
   }
 }
 
+interface Response {
+  data?: any
+  status?: number
+  error?: boolean
+}
+
 export const useSender = (api: {
   config: AxiosRequestConfig
-}): ((payload: any) => Promise<AxiosResponse<any> | any>) => {
+}): ((payload: any) => Promise<Response>) => {
   const token = useMemo(() => {
     const params = new URLSearchParams(window.location.search)
     return params.get('token')
   }, [])
 
-  const sender = async (payload: any): Promise<AxiosResponse<any> | any> => {
+  const sender = async (payload: any): Promise<Response> => {
+    if (!token) {
+      return {
+        status: 401,
+        error: true,
+      }
+    }
     const options = getOptionsWithPayload(api, payload)
     try {
       const result = await axios({
@@ -47,11 +59,22 @@ export const useSender = (api: {
         ...api.config,
         ...options,
       })
-      return result
+      return {
+        data: result.data,
+        status: result.status,
+        error: true,
+      }
     } catch (e) {
-      return e
+      if (e.response) {
+        return {
+          status: e.response.status,
+        }
+      } else {
+        return {
+          error: true,
+        }
+      }
     }
   }
-
   return sender
 }

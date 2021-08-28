@@ -7,17 +7,7 @@ import marked from 'marked'
 import dayjs from 'dayjs'
 import DOMPurify from 'dompurify'
 import { API } from 'constants/api'
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
-import { CssBaseline } from '@material-ui/core'
-import { PAGE } from 'constants/page'
-
-const Redirect: React.FC = () => {
-  const history = useHistory()
-  useEffect(() => {
-    history.push(PAGE.viewer.path)
-  })
-  return <div>redirect</div>
-}
+import Loading from 'components/elements/display/Loading'
 
 const App: React.FC = () => {
   const [items, setItems] = useState<report[]>([])
@@ -37,13 +27,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const callSender = async () => {
       const result = await sender({})
+
       if (result.status === 401) {
-        setError('認証エラー')
+        setError('認証されていません。')
         setLoading(false)
         return
       }
-      if (result.status !== 200) {
-        setError('不明なエラー')
+      if (result.error) {
+        setError('不明なエラーが発生しました。')
         setLoading(false)
         return
       }
@@ -64,22 +55,10 @@ const App: React.FC = () => {
   }
 
   if (loading) {
-    return <div>loading</div>
+    return <Loading />
   }
 
-  return (
-    <BrowserRouter>
-      <CssBaseline />
-      <Switch>
-        <Route path={PAGE.home.path} exact>
-          <Redirect />
-        </Route>
-        <Route path={PAGE.viewer.path} exact>
-          <Viewer items={items} />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  )
+  return <Viewer items={items} />
 }
 
 export default App
