@@ -22,7 +22,6 @@ const verifyToken = (event) => {
         const token = jwt.verify(authHeader.split(' ')[1], AUTH_SECRET, {
           audience: AUTH_AUDIENCE,
           issuer: AUTH_ISSUER,
-          algorithms: ['RS256'],
         })
         if (userList.includes(token.name)) {
           return true
