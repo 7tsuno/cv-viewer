@@ -62,12 +62,12 @@ export const useSender = (api: {
       return {
         data: result.data,
         status: result.status,
-        error: true,
       }
     } catch (e) {
       if (e.response) {
         return {
           status: e.response.status,
+          error: true,
         }
       } else {
         return {
