@@ -10,7 +10,7 @@ marked.setOptions({
 
 const useStyles = makeStyles((theme) => ({
   cv: {
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(1),
   },
 }))
 

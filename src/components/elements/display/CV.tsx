@@ -8,17 +8,32 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core'
+import { Media } from 'constants/media'
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
+    [Media.over_lg]: {
+      padding: theme.spacing(2),
+    },
   },
   title: {
-    marginBottom: theme.spacing(2),
+    fontSize: 28,
+    [Media.over_sm]: {
+      fontSize: 34,
+    },
   },
   content: {
-    marginLeft: theme.spacing(3),
-    marginTop: theme.spacing(3),
+    [Media.over_sm]: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+      marginTop: theme.spacing(3),
+    },
+    [Media.over_lg]: {
+      marginLeft: theme.spacing(3),
+      marginRight: theme.spacing(3),
+      marginTop: theme.spacing(3),
+    },
   },
   line: {
     margin: theme.spacing(2, 0),
@@ -75,11 +90,11 @@ const CV: React.FC<report> = ({
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography variant="h4" className={classes.title} color="textPrimary">
+        <Typography variant="h4" color="textPrimary" className={classes.title}>
           {title}
         </Typography>
         <div className={classes.content}>
-          <Typography variant="h5" className={classes.line}>
+          <Typography variant="h6" className={classes.line}>
             {`${startDate} ～ ${endDate}`}
           </Typography>
           <Typography variant="h6" className={classes.line}>

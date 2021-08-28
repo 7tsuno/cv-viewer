@@ -1,11 +1,18 @@
 import React, { createRef, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { AppBar, Container, Fab, Toolbar, Typography } from '@material-ui/core'
+import {
+  AppBar,
+  Box,
+  Container,
+  Fab,
+  Toolbar,
+  Typography,
+} from '@material-ui/core'
 import { ArrowUpward } from '@material-ui/icons'
 
-const useStyles = makeStyles((theme) => ({
-  content: {
-    padding: theme.spacing(4),
+const useStyles = makeStyles(() => ({
+  container: {
+    padding: 0,
   },
   fab: {
     margin: 0,
@@ -45,8 +52,8 @@ const MainTemplate: React.FC<{ children: React.ReactNode }> = ({
       <Fab className={classes.fab} color="secondary" onClick={scrollToTop}>
         <ArrowUpward />
       </Fab>
-      <Container maxWidth="lg">
-        <div className={classes.content}>{children}</div>
+      <Container maxWidth="lg" className={classes.container}>
+        <Box>{children}</Box>
       </Container>
     </>
   )
