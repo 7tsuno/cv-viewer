@@ -5,10 +5,11 @@ import {
   Box,
   Container,
   Fab,
+  IconButton,
   Toolbar,
   Typography,
 } from '@material-ui/core'
-import { ArrowUpward } from '@material-ui/icons'
+import { ArrowUpward, GitHub } from '@material-ui/icons'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -47,6 +48,15 @@ const MainTemplate: React.FC<{ children: React.ReactNode }> = ({
           <Typography variant="h6" color="inherit" noWrap>
             CV Viewer
           </Typography>
+          <a
+            href="https://github.com/7tsuno/cv-viewer"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <IconButton>
+              <GitHub />
+            </IconButton>
+          </a>
         </Toolbar>
       </AppBar>
       <Fab className={classes.fab} color="secondary" onClick={scrollToTop}>

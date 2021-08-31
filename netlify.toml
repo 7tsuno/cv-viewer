@@ -2,9 +2,11 @@
   command = "npm run build"
   functions = "dist/api"
 [template.environment]
-  REACT_APP_AUTH_DOMAIN = "Auth0 domain"
-  REACT_APP_AUTH_CLIENT_ID = "Auth0 Client ID"
-  REACT_APP_AUTH_AUDIENCE = "Auth0 API Audience"
   CONTENTFUL_SPACE_ID = "Contentful Space ID"
   CONTENTFUL_TOKEN = "Contentful Content Delivery API - access token "
-  CONTENTFUL_ENVIRONMENT = "environment like master"
+  CONTENTFUL_ENVIRONMENT = "Environment like master"
+  AUTH_SECRET="Your auth secret"
+  AUTH_USER_LIST="Auth username split by comma"
+  AUTH_ISSUER="Issuer ID"
+  AUTH_AUDIENCE="Client ID"
+  GENERATE_SOURCEMAP=false
